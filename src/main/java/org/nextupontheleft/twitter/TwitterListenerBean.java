@@ -5,7 +5,6 @@ import org.nextupontheleft.domain.Approved;
 import org.nextupontheleft.domain.Tweeter;
 import org.nextupontheleft.mongo.MongoCache;
 import org.nextupontheleft.mongo.MongoDB;
-import twitter4j.FilterQuery;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
@@ -39,10 +38,7 @@ public class TwitterListenerBean {
         logger.debug("Finishing recovery...");
         logger.debug("Starting up");
         twitterStream.addListener(statusListener);
-        long userId = twitterStream.getId();
-        long[] follows = {userId};
-        FilterQuery filter = new FilterQuery(follows);
-        twitterStream.filter(filter);
+        twitterStream.user();
     }
 
     public void shutDown() {
