@@ -3,6 +3,13 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+  <component name="LeiningenProjectsManager">
+    <option name="projectFiles">
+      <list>
+        <option value="file://$PROJECT_DIR$/../nuotl/project.clj" />
+      </list>
+    </option>
+  </component>
   <component name="MavenBuildProjectComponent">
     <option name="mavenExecutable" value="" />
     <option name="Settings File" value="" />

@@ -19,6 +19,8 @@ public interface NuotlCache {
     public List<Tweeter> getAuthorisedTweeters();
     
     public void addEvent(Event event);
+
+    public void addTweeter(Tweeter tweeter);
     
     public void addFailedEvent(FailedEvent event);
     

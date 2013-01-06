@@ -4,48 +4,37 @@
  */
 package org.nextupontheleft.domain;
 
+import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.PostPersist;
-import com.google.code.morphia.annotations.Reference;
+import com.google.code.morphia.annotations.Property;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.nextupontheleft.mongo.MongoDB;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  *
  * @author john
  */
+@Entity(value="event", noClassnameStored=true)
 public class Event {
 
     @Id
     private long id;
+    @Property("start")
     private Date start_time;
+    @Property("end")
     private Date end_time;
     private String area;
+    @Property("text")
     private String html;
     private String tags;
-    @Reference
-    private Tweeter tweeter;
+    private long tweeter;
     private Approved approved;
-
-    @PostPersist
-    private void postPersist() {
-        try {
-            MongoDB db = MongoDB.getInstance();
-            db.save(area);
-            db.save(tweeter);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public Event() {
     }
 
-    public Event(long id, Date start_time, Date end_time, String area, String html, String tags, Tweeter tweeter, Approved approved) {
+    public Event(long id, Date start_time, Date end_time, String area, String html, String tags, long tweeter, Approved approved) {
         this.id = id;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -56,7 +45,7 @@ public class Event {
         this.approved = approved;
     }
     
-    public Tweeter getTweeter() {
+    public long getTweeter() {
         return this.tweeter;
     }
 
@@ -82,14 +71,6 @@ public class Event {
 
     public Date getStart_time() {
         return start_time;
-    }
-
-    public String getStart_timeFormatted() {
-        if(start_time == null) {
-            return "-";
-        } else {
-            return new SimpleDateFormat("HH:mm").format(start_time);
-        }
     }
     
     public String getTags() {

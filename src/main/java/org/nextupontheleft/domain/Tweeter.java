@@ -4,17 +4,21 @@
  */
 package org.nextupontheleft.domain;
 
+import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Property;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
 /**
  *
  * @author john
  */
+@Entity(value="tweeter", noClassnameStored=true)
 public class Tweeter {
     @Id
     private long id;
 	private String name;
+    @Property("display-name")
     private String display_name;
 	private Approved approved;
 	
@@ -42,6 +46,10 @@ public class Tweeter {
 	public Approved getApproved() {
 		return this.approved;
 	}
+
+    public void setApproved(Approved approved) {
+        this.approved = approved;
+    }
 
     @Override
     public String toString() {

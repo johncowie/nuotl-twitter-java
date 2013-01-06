@@ -1,8 +1,11 @@
 package org.nextupontheleft.twitter;
 
 import org.apache.log4j.Logger;
-import org.nextupontheleft.domain.*;
-import org.nextupontheleft.mongo.MongoCache;
+import org.nextupontheleft.domain.Approved;
+import org.nextupontheleft.domain.Event;
+import org.nextupontheleft.domain.EventResponse;
+import org.nextupontheleft.domain.Tweeter;
+import org.nextupontheleft.mongo.NuotlCache;
 import twitter4j.Status;
 
 /**
@@ -13,12 +16,12 @@ public class TweetProcessor {
 
     private static final Logger logger = Logger.getLogger(TweetProcessor.class);
 
-	private MongoCache cache;
+	private NuotlCache cache;
 	private EventTweetParser eventInterpreter;
 	private TwitterResponder twitterResponder;
 
-    public TweetProcessor(TwitterResponder twitterResponder) {
-        this.cache = new MongoCache();
+    public TweetProcessor(NuotlCache cache, TwitterResponder twitterResponder) {
+        this.cache = cache;
         this.eventInterpreter = new EventTweetParser();
         this.twitterResponder = twitterResponder;
     }
@@ -40,6 +43,11 @@ public class TweetProcessor {
 		try {
 			Event event = eventInterpreter.interpretTweet(tweet);
             cache.addEvent(event);
+            Tweeter tweeter = new Tweeter(tweet.getUser().getId(), tweet.getUser().getScreenName(), tweet.getUser().getName(), Approved.N);
+            if(currentTweeter != null) {
+                tweeter.setApproved(currentTweeter.getApproved());
+            }
+            cache.addTweeter(tweeter);
             if(currentTweeter == null || currentTweeter.getApproved() == null || currentTweeter.getApproved() != Approved.Y) {
                 throw new TweetParsingException(TweetParsingErrorCode.UNAUTHORISED_USER);
             }

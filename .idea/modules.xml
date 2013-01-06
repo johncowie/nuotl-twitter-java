@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../nuotl/nuotl.iml" filepath="$PROJECT_DIR$/../nuotl/nuotl.iml" />
       <module fileurl="file://$PROJECT_DIR$/nuotl-twitter.iml" filepath="$PROJECT_DIR$/nuotl-twitter.iml" />
     </modules>
   </component>

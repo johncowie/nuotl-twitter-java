@@ -26,6 +26,10 @@ public class MongoCache implements NuotlCache {
         ds.save(event);
     }
 
+    public void addTweeter(Tweeter tweeter) {
+        ds.save(tweeter);
+    }
+
     public void addFailedEvent(FailedEvent event) {
         throw new UnsupportedOperationException();    }
 

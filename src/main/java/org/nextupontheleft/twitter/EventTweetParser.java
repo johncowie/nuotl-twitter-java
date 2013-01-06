@@ -9,7 +9,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.nextupontheleft.domain.Approved;
 import org.nextupontheleft.domain.Event;
-import org.nextupontheleft.domain.Tweeter;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
@@ -42,7 +41,7 @@ public class EventTweetParser {
             tagsStr += tag.getText() + " ";
         }
 		return new Event(tweetId, eventDetails.startDate, eventDetails.endDate, eventDetails.postalArea,
-                 LinkToHtmlConverter.replaceLinksWithHtml(eventDetails.text, urls), tagsStr, new Tweeter(tweeter.getId(), tweeter.getScreenName(), tweeter.getName(), Approved.N), Approved.U);
+                 LinkToHtmlConverter.replaceLinksWithHtml(eventDetails.text, urls), tagsStr, tweeter.getId(), Approved.U);
 	}
 
 	private EventDetails getEventDetails(String tweetContent) throws TweetParsingException {

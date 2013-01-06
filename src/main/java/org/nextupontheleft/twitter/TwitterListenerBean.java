@@ -26,9 +26,9 @@ public class TwitterListenerBean {
 
     public TwitterListenerBean() throws Exception {
         this.configuration = new PropertyConfiguration(new FileInputStream("/Users/john/Dropbox/twitter4j.properties"));
-        TweetProcessor tweetProcessor = new TweetProcessor(new TwitterResponder(this.configuration));
-        this.statusListener = new PersistenceStatusListener(tweetProcessor);
         this.mapper = new MongoCache();
+        TweetProcessor tweetProcessor = new TweetProcessor(this.mapper, new TwitterResponder(this.configuration));
+        this.statusListener = new PersistenceStatusListener(tweetProcessor);
         this.tweetRecoverer = new TweetRecoverer(tweetProcessor, this.configuration);
     }
 

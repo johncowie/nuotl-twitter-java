@@ -17,7 +17,9 @@ public class MongoDB {
     private static MongoDB instance;
 
     private MongoDB() throws Exception {
-        ds = new Morphia().createDatastore(new Mongo("localhost", 27017), "nuotl-twitter");
+        Morphia morphia = new Morphia();
+        ds = morphia.createDatastore(new Mongo("localhost", 27017), "nuotl");
+
     }
 
     public static MongoDB getInstance() {
@@ -44,7 +46,7 @@ public class MongoDB {
         int id = (int)(Math.random()*1000);
         Date startDate = new LocalDateTime(year, month, day, 19, 0, 0).toDate();
         Date endDate = new LocalDateTime(year, month, day, 19, 0, 0).plusDays(days).toDate();
-        return new Event(id, startDate, endDate, a, text, "tags", t, Approved.Y);
+        return new Event(id, startDate, endDate, a, text, "tags", t.getId(), Approved.Y);
     }
 
     public Datastore getDS() {
