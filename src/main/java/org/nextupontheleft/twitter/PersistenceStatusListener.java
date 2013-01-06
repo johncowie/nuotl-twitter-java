@@ -14,7 +14,11 @@ import twitter4j.StatusListener;
  */
 public class PersistenceStatusListener implements StatusListener {
 
-	private TweetProcessor processor = new TweetProcessor();
+	private TweetProcessor processor;
+
+    public PersistenceStatusListener(TweetProcessor tweetProcessor) {
+        this.processor = tweetProcessor;
+    }
 	
 	public void onStatus(Status status) {
 		System.out.println("RECEIVE: " + status);

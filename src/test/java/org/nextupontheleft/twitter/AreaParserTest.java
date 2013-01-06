@@ -1,8 +1,6 @@
 package org.nextupontheleft.twitter;
 
 import org.junit.Test;
-import org.nextupontheleft.domain.Area;
-import org.nextupontheleft.domain.Region;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -17,20 +15,18 @@ import static org.junit.Assert.fail;
 public class AreaParserTest {
 
     private AreaParser p = new AreaParser();
-    private static final Region UK = new Region("R", "UK");
-    private static final Area LONDON = new Area("L", "London", UK);
 
     @Test
     public void testAddArea() throws TweetParsingException{
-        p.addArea(LONDON);
-        Area a = p.parse("L");
-        assertEquals(LONDON, a);
+        p.addArea("l");
+        String a = p.parse("L");
+        assertEquals("L", a);
     }
 
     @Test
     public void testNonExistentArea() {
         try {
-            Area a = p.parse("L");
+            String a = p.parse("L");
             fail();
         } catch(TweetParsingException e) {
             assertEquals(TweetParsingErrorCode.POSTAL_AREA_ERROR, e.getErrorCode());

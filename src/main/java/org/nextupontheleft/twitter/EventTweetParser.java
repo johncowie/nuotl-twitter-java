@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.nextupontheleft.domain.Approved;
-import org.nextupontheleft.domain.Area;
 import org.nextupontheleft.domain.Event;
 import org.nextupontheleft.domain.Tweeter;
 import twitter4j.HashtagEntity;
@@ -28,7 +27,7 @@ public class EventTweetParser {
     private TimeParser timeParser = new TimeParser();
     private DurationParser durationParser = new DurationParser();
     private AreaParser areaProvider = new AreaParser();
-	
+
 	public Event interpretTweet(Status tweet) throws TweetParsingException {
         if(tweet.getURLEntities().length < 1) {
             throw new TweetParsingException(TweetParsingErrorCode.NO_URL);
@@ -64,7 +63,8 @@ public class EventTweetParser {
         LocalTime time = timeParser.parse(timeString);
         DateTime startDate = date.toDateTime(time);
 		DateTime endDate = getDateWithAddedDuration(startDate, durationString);
-        Area postalArea = areaProvider.parse(postalAreaString);
+        areaProvider.loadAreas();
+        String postalArea = areaProvider.parse(postalAreaString);
 			return new EventDetails(startDate.toDate(), endDate.toDate(), postalArea, remaining);
 	}
 
@@ -77,10 +77,10 @@ public class EventTweetParser {
 
 		private Date startDate;
         private Date endDate;
-		private Area postalArea;
+		private String postalArea;
 		private String text;
 
-		public EventDetails(Date startDate, Date endDate, Area postalArea, String text) {
+		public EventDetails(Date startDate, Date endDate, String postalArea, String text) {
 			this.startDate = startDate;
             this.endDate = endDate;
 			this.text = text;

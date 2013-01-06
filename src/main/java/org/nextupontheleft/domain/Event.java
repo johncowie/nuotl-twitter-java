@@ -23,8 +23,7 @@ public class Event {
     private long id;
     private Date start_time;
     private Date end_time;
-    @Reference
-    private Area area;
+    private String area;
     private String html;
     private String tags;
     @Reference
@@ -46,7 +45,7 @@ public class Event {
     public Event() {
     }
 
-    public Event(long id, Date start_time, Date end_time, Area area, String html, String tags, Tweeter tweeter, Approved approved) {
+    public Event(long id, Date start_time, Date end_time, String area, String html, String tags, Tweeter tweeter, Approved approved) {
         this.id = id;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -65,7 +64,7 @@ public class Event {
         return approved;
     }
 
-    public Area getArea() {
+    public String getArea() {
         return area;
     }
 

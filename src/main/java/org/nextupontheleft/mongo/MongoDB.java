@@ -5,7 +5,6 @@ import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;
 import org.joda.time.LocalDateTime;
 import org.nextupontheleft.domain.Approved;
-import org.nextupontheleft.domain.Area;
 import org.nextupontheleft.domain.Event;
 import org.nextupontheleft.domain.Tweeter;
 
@@ -18,7 +17,7 @@ public class MongoDB {
     private static MongoDB instance;
 
     private MongoDB() throws Exception {
-        ds = new Morphia().createDatastore(new Mongo("localhost", 27017), "nuotl");
+        ds = new Morphia().createDatastore(new Mongo("localhost", 27017), "nuotl-twitter");
     }
 
     public static MongoDB getInstance() {
@@ -34,13 +33,13 @@ public class MongoDB {
 
     public static void main(String[] args) throws Exception {
         MongoCache cache = new MongoCache();
-        cache.addEvent(createEvent(3, 9, 2012, 0, "event 1", cache.getArea("N")));
-        cache.addEvent(createEvent(4, 9, 2012, 3, "event 2", cache.getArea("G")));
-        cache.addEvent(createEvent(23, 10, 2012, 1, "event 3", cache.getArea("CF")));
-        cache.addEvent(createEvent(29, 10, 2012, 0, "event 5", cache.getArea("S")));
+        cache.addEvent(createEvent(3, 9, 2012, 0, "event 1", "N"));
+        cache.addEvent(createEvent(4, 9, 2012, 3, "event 2", "G"));
+        cache.addEvent(createEvent(23, 10, 2012, 1, "event 3", "CF"));
+        cache.addEvent(createEvent(29, 10, 2012, 0, "event 5", "S"));
     }
 
-    public static Event createEvent(int day, int month, int year, int days, String text, Area a) {
+    public static Event createEvent(int day, int month, int year, int days, String text, String a) {
         Tweeter t = new Tweeter(1, "johnacowie", "John Cowie", Approved.Y);
         int id = (int)(Math.random()*1000);
         Date startDate = new LocalDateTime(year, month, day, 19, 0, 0).toDate();

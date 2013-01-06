@@ -16,10 +16,6 @@ public interface NuotlCache {
     
     public List<Event> getEvents(int month, int year);
     
-    public List<Area> getAreas();
-    
-    public List<Region> getRegions();
-    
     public List<Tweeter> getAuthorisedTweeters();
     
     public void addEvent(Event event);

@@ -4,31 +4,17 @@
  */
 package org.nextupontheleft.twitter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.conf.PropertyConfiguration;
+import twitter4j.conf.Configuration;
 
-import javax.annotation.PostConstruct;
-
-/**
- *
- * @author john
- */
-@Component
 public class TwitterResponder {
-
-    @Autowired
-    private PropertyConfiguration configuration;
 
 	private Twitter twitter;
 	private Long twitterId;
 
-	@PostConstruct
-	public void init() throws TwitterException {
+	public TwitterResponder(Configuration configuration) throws Exception {
 		twitter = new TwitterFactory(configuration).getInstance();
 		twitterId = twitter.getId();
 	}

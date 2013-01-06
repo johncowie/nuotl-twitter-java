@@ -18,18 +18,6 @@ public class MongoCache implements NuotlCache {
         return q.asList();
     }
 
-    public List<Area> getAreas() {
-        return ds.find(Area.class).asList();
-    }
-
-    public Area getArea(String id) {
-        return ds.find(Area.class, "_id", id).get();
-    }
-
-    public List<Region> getRegions() {
-        return ds.find(Region.class).asList();
-    }
-
     public List<Tweeter> getAuthorisedTweeters() {
         return ds.find(Tweeter.class).field("authorised").equal("Y").asList();
     }

@@ -13,9 +13,15 @@ public class TweetProcessor {
 
     private static final Logger logger = Logger.getLogger(TweetProcessor.class);
 
-	private MongoCache cache = new MongoCache();
-	private EventTweetParser eventInterpreter = new EventTweetParser();
-	private TwitterResponder twitterResponder = new TwitterResponder();
+	private MongoCache cache;
+	private EventTweetParser eventInterpreter;
+	private TwitterResponder twitterResponder;
+
+    public TweetProcessor(TwitterResponder twitterResponder) {
+        this.cache = new MongoCache();
+        this.eventInterpreter = new EventTweetParser();
+        this.twitterResponder = twitterResponder;
+    }
 
 	public void processTweet(Status tweet) {
         logger.debug("Processing tweet: " + tweet);
@@ -39,10 +45,11 @@ public class TweetProcessor {
             }
 		} catch (TweetParsingException e) {
 			error = e.getErrorCode();
-            Tweeter newTweeter = new Tweeter(tweet.getUser().getId(), tweet.getUser().getScreenName(), 
-                tweet.getUser().getName(), Approved.N);
-            FailedEvent failedEvent = new FailedEvent(tweet.getId(), tweet.getText(), newTweeter);
-            cache.addFailedEvent(failedEvent);
+            System.out.println(String.format("PARSING ERROR: %s", error.getMessage()));
+            // Tweeter newTweeter = new Tweeter(tweet.getUser().getId(), tweet.getUser().getScreenName(),
+                // tweet.getUser().getName(), Approved.N);
+            // FailedEvent failedEvent = new FailedEvent(tweet.getId(), tweet.getText(), newTweeter);
+            // cache.addFailedEvent(failedEvent);
 		}
 		this.twitterResponder.replyToTweet(tweet, error);
 	}

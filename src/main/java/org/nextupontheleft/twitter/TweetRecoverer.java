@@ -1,9 +1,7 @@
 package org.nextupontheleft.twitter;
 
 import twitter4j.*;
-import twitter4j.conf.PropertyConfiguration;
-
-import java.io.FileInputStream;
+import twitter4j.conf.Configuration;
 
 /**
  *
@@ -11,14 +9,13 @@ import java.io.FileInputStream;
  */
 public class TweetRecoverer {
 
-    private PropertyConfiguration configuration = new PropertyConfiguration(new FileInputStream("/Users/jcowie/Desktop/twitter4j.properties"));
-    private TweetProcessor tweetProcessor = new TweetProcessor();
+    private TweetProcessor tweetProcessor;
     
     private Twitter twitter;
 
-    public TweetRecoverer() throws Exception {
-        this.configuration = new PropertyConfiguration(new FileInputStream("/Users/jcowie/Desktop/twitter4j.properties"));
+    public TweetRecoverer(TweetProcessor tweetProcessor, Configuration configuration) {
         this.twitter = new TwitterFactory(configuration).getInstance();
+        this.tweetProcessor = tweetProcessor;
     }
     
     /**
@@ -47,11 +44,6 @@ public class TweetRecoverer {
             pageId++;
         }
         
-    }
-    
-    public static void main(String[] args) throws Exception {
-        TweetRecoverer tweetRecoverer = new TweetRecoverer();
-        tweetRecoverer.recoverTweets(248503247210426368L);
     }
     
 }

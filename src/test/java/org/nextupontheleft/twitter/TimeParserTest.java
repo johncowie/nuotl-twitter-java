@@ -5,13 +5,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created with IntelliJ IDEA.
- * User: jcowie
- * Date: 03/10/2012
- * Time: 12:07
- * To change this template use File | Settings | File Templates.
- */
 public class TimeParserTest {
 
     private TimeParser t = new TimeParser();
