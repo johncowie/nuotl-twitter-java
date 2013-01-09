@@ -29,5 +29,7 @@ public interface NuotlCache {
     public Tweeter getTweeter(long id);
 
     public long getMaxTweetId();
+
+    public void addFeature(FeatureTweet feature);
     
 }

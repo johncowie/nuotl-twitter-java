@@ -4,11 +4,16 @@
  */
 package org.nextupontheleft.domain;
 
+import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
+
 /**
  *
  * @author john
  */
+@Entity(value="event", noClassnameStored=true)
 public class EventResponse {
+    @Id
     private long id;
     private long originator;
     private String text;

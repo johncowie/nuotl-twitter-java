@@ -4,9 +4,7 @@
  */
 package org.nextupontheleft.twitter;
 
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
+import twitter4j.*;
 import twitter4j.conf.Configuration;
 
 public class TwitterResponder {
@@ -23,23 +21,20 @@ public class TwitterResponder {
 		return twitterId;
 	}
 	
-	public void replyToTweet(Status tweet, TweetParsingErrorCode errorCode) {
-
-//		String message = "@" + tweet.getUser().getScreenName() + " " + errorCode.getMessage() + " " + constructTweetUrl(tweet);
-//		System.out.println("Attempting to send: " + message);
-//		StatusUpdate statusUpdate = new StatusUpdate(message);
-//		statusUpdate.inReplyToStatusId(tweet.getId());
-//		try {
-//            if(this.configFlagProvider.isFlagEnabled(ConfigFlagId.RESPOND_TO_TWEETS)) {
-//                twitter.updateStatus(statusUpdate);
-//            }
-//		} catch(TwitterException e) {
-//			e.printStackTrace();
-//		}
+	public void replyToTweet(Status tweet, String text) {
+		String message = "@" + tweet.getUser().getScreenName() + " " + text + " " + constructTweetUrl(tweet);
+		System.out.println("Attempting to send: " + message);
+		StatusUpdate statusUpdate = new StatusUpdate(message);
+		statusUpdate.inReplyToStatusId(tweet.getId());
+		try {
+            twitter.updateStatus(statusUpdate);
+		} catch(TwitterException e) {
+			e.printStackTrace();
+		}
 	}
         
-        private String constructTweetUrl(Status tweet) {
-            return "http://twitter.com/" + tweet.getUser().getId() + "/status/" + tweet.getId();
-        }
+    private String constructTweetUrl(Status tweet) {
+        return "http://twitter.com/" + tweet.getUser().getId() + "/status/" + tweet.getId();
+    }
 	
 }

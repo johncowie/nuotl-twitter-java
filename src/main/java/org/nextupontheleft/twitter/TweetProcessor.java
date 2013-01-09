@@ -3,7 +3,6 @@ package org.nextupontheleft.twitter;
 import org.apache.log4j.Logger;
 import org.nextupontheleft.domain.Approved;
 import org.nextupontheleft.domain.Event;
-import org.nextupontheleft.domain.EventResponse;
 import org.nextupontheleft.domain.Tweeter;
 import org.nextupontheleft.mongo.NuotlCache;
 import twitter4j.Status;
@@ -18,27 +17,33 @@ public class TweetProcessor {
 
 	private NuotlCache cache;
 	private EventTweetParser eventInterpreter;
+    private FeatureTweetProcessor featureTweetProcessor;
 	private TwitterResponder twitterResponder;
 
     public TweetProcessor(NuotlCache cache, TwitterResponder twitterResponder) {
         this.cache = cache;
         this.eventInterpreter = new EventTweetParser();
+        this.featureTweetProcessor = new FeatureTweetProcessor(cache, twitterResponder);
         this.twitterResponder = twitterResponder;
     }
 
 	public void processTweet(Status tweet) {
         logger.debug("Processing tweet: " + tweet);
-        Tweeter currentTweeter = cache.getTweeter(tweet.getUser().getId());
 		try {
 			if (tweet.getUser().getId() == twitterResponder.getTwitterAccountId()) {
 				// ignore tweets from next up on the left - just add to database
-                EventResponse response = new EventResponse(tweet.getId(), tweet.getInReplyToStatusId(), tweet.getText());
-                cache.addEventResponse(response);
+                // EventResponse response = new EventResponse(tweet.getId(), tweet.getInReplyToStatusId(), tweet.getText());
+                // cache.addEventResponse(response);
                 return;
 			}
 		} catch (Exception e) {
 			return;
 		}
+        if(this.featureTweetProcessor.isFeatureTweet(tweet)) {
+            this.featureTweetProcessor.processTweet(tweet);
+            return;
+        }
+        Tweeter currentTweeter = cache.getTweeter(tweet.getUser().getId());
 		TweetParsingErrorCode error = TweetParsingErrorCode.SUCCESS;
 		try {
 			Event event = eventInterpreter.interpretTweet(tweet);
@@ -59,7 +64,7 @@ public class TweetProcessor {
             // FailedEvent failedEvent = new FailedEvent(tweet.getId(), tweet.getText(), newTweeter);
             // cache.addFailedEvent(failedEvent);
 		}
-		this.twitterResponder.replyToTweet(tweet, error);
+//		this.twitterResponder.replyToTweet(tweet, error);
 	}
 	
 }

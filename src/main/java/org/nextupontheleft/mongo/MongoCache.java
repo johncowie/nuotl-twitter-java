@@ -43,4 +43,8 @@ public class MongoCache implements NuotlCache {
     public long getMaxTweetId() {
         throw new UnsupportedOperationException();
     }
+
+    public void addFeature(FeatureTweet feature) {
+        ds.save(feature);
+    }
 }
