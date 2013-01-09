@@ -14,6 +14,8 @@ import java.io.FileInputStream;
 
 public class TwitterListenerBean {
 
+    private static final boolean RESPOND = true;
+
     private static final Logger logger = Logger.getLogger(TwitterListenerBean.class);
     private PropertyConfiguration configuration;
     private PersistenceStatusListener statusListener;
@@ -23,10 +25,10 @@ public class TwitterListenerBean {
 
     private TwitterStream twitterStream;
 
-    public TwitterListenerBean() throws Exception {
-        this.configuration = new PropertyConfiguration(new FileInputStream("/Users/john/Dropbox/twitter4j.properties"));
+    public TwitterListenerBean(FileInputStream credentials) throws Exception {
+        this.configuration = new PropertyConfiguration(credentials);
         this.mapper = new MongoCache();
-        TweetProcessor tweetProcessor = new TweetProcessor(this.mapper, new TwitterResponder(this.configuration));
+        TweetProcessor tweetProcessor = new TweetProcessor(this.mapper, new TwitterResponder(this.configuration, RESPOND));
         this.statusListener = new PersistenceStatusListener(tweetProcessor);
         this.tweetRecoverer = new TweetRecoverer(tweetProcessor, this.configuration);
     }
@@ -47,9 +49,13 @@ public class TwitterListenerBean {
     }
 
     public static void main(String[] args) throws Exception {
+        if(args.length == 0) {
+            System.out.println("Need to supply path of credentials properties file as argument");
+            System.exit(0);
+        }
         Tweeter tweeter = new Tweeter(578502168, "johncowiedev", "John Cowie", Approved.Y);
         MongoDB.getInstance().save(tweeter);
-        TwitterListenerBean bean = new TwitterListenerBean();
+        TwitterListenerBean bean = new TwitterListenerBean(new FileInputStream(args[0]));
         bean.startUp();
     }
 }

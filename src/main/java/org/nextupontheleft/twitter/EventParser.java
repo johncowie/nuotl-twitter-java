@@ -20,7 +20,7 @@ import java.util.Date;
  *
  * @author john
  */
-public class EventTweetParser {
+public class EventParser {
 
 	private DateParser dateParser = new DateParser();
     private TimeParser timeParser = new TimeParser();
