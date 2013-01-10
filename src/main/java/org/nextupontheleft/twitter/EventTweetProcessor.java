@@ -22,7 +22,7 @@ public class EventTweetProcessor {
     public EventTweetProcessor(NuotlCache cache, TwitterResponder responder) {
         this.cache = cache;
         this.responder = responder;
-        this.parser = new EventParser();
+        this.parser = new EventParser(cache);
     }
 
     public void processTweet(Status tweet) {

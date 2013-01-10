@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.nextupontheleft.domain.Approved;
 import org.nextupontheleft.domain.Event;
+import org.nextupontheleft.mongo.NuotlCache;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
@@ -25,7 +26,11 @@ public class EventParser {
 	private DateParser dateParser = new DateParser();
     private TimeParser timeParser = new TimeParser();
     private DurationParser durationParser = new DurationParser();
-    private AreaParser areaProvider = new AreaParser();
+    private AreaParser areaProvider;
+
+    public EventParser(NuotlCache cache) {
+        this.areaProvider = new AreaParser(cache);
+    }
 
 	public Event interpretTweet(Status tweet) throws TweetParsingException {
         if(tweet.getURLEntities().length < 1) {

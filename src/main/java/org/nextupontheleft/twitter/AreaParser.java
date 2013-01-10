@@ -4,7 +4,8 @@
  */
 package org.nextupontheleft.twitter;
 
-import org.nextupontheleft.mongo.MongoCache;
+import org.nextupontheleft.domain.Area;
+import org.nextupontheleft.mongo.NuotlCache;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,14 +16,18 @@ import java.util.Set;
  */
 public class AreaParser {
 
-    private MongoCache dao;
+    private NuotlCache dao;
     
     private Set<String> areas = new HashSet<String>();
 
+    public AreaParser(NuotlCache dao) {
+        this.dao = dao;
+    }
+
     public void loadAreas() {
-        areas.add("CF");
-        areas.add("N");
-        areas.add("S");
+        for(Area area : this.dao.getAreas()) {
+            this.areas.add(area.getId().toUpperCase());
+        }
     }
 
     public void addArea(String id) {

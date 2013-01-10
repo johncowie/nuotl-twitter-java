@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
  */
 public class AreaParserTest {
 
-    private AreaParser p = new AreaParser();
+    private AreaParser p = new AreaParser(null);
 
     @Test
     public void testAddArea() throws TweetParsingException{
