@@ -1,11 +1,14 @@
 package org.nextupontheleft.twitter;
 
+import org.apache.log4j.Logger;
 import org.nextupontheleft.domain.FeatureTweet;
 import org.nextupontheleft.mongo.NuotlCache;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 
 public class FeatureTweetProcessor {
+
+    private static final Logger logger = Logger.getLogger(FeatureTweetProcessor.class);
 
     private NuotlCache cache;
     private TwitterResponder responder;
@@ -25,7 +28,7 @@ public class FeatureTweetProcessor {
     }
 
     public void processTweet(Status tweet) {
-        System.out.println("PROCESSING FEATURE TWEET: " + tweet);
+        logger.debug("PROCESSING FEATURE TWEET: " + tweet);
         this.cache.addFeature(new FeatureTweet(tweet));
         this.responder.replyToTweet(tweet, "Cheers for the feature request!");
     }

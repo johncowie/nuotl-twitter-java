@@ -4,10 +4,13 @@
  */
 package org.nextupontheleft.twitter;
 
+import org.apache.log4j.Logger;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 
 public class TwitterResponder {
+
+    private static final Logger logger = Logger.getLogger(TwitterResponder.class);
 
 	private Twitter twitter;
 	private Long twitterId;
@@ -36,7 +39,7 @@ public class TwitterResponder {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Responding is disabled so didn't send the following message: [" + message + "]");
+            logger.debug("Responding is disabled so didn't send the following message: [" + message + "]");
         }
 	}
         

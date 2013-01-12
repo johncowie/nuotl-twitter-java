@@ -4,6 +4,7 @@
  */
 package org.nextupontheleft.twitter;
 
+import org.apache.log4j.Logger;
 import twitter4j.*;
 
 /**
@@ -12,6 +13,8 @@ import twitter4j.*;
  */
 public class PersistenceStatusListener implements UserStreamListener {
 
+    private static final Logger logger = Logger.getLogger(PersistenceStatusListener.class);
+
 	private TweetProcessor processor;
 
     public PersistenceStatusListener(TweetProcessor tweetProcessor) {
@@ -19,24 +22,24 @@ public class PersistenceStatusListener implements UserStreamListener {
     }
 
 	public void onStatus(Status status) {
-		System.out.println("RECEIVE: " + status);
+		logger.debug("RECEIVE: " + status);
 		this.processor.processTweet(status);
 	}
 
 	public void onDeletionNotice(StatusDeletionNotice sdn) {
-		System.out.println("DELETE: " + sdn.getStatusId());
+		logger.debug("DELETE: " + sdn.getStatusId());
 	}
 
 	public void onTrackLimitationNotice(int i) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		// do nothing
 	}
 
 	public void onScrubGeo(long l, long l1) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		// do nothing
 	}
 
 	public void onException(Exception excptn) {
-		excptn.printStackTrace();
+		logger.warn("Twitter Error: ", excptn);
 	}
 
     @Override
